@@ -91,7 +91,7 @@ public class RouteController {
 //        }
 //    }
     /*** 根据rid查询线路详情信息 * @param request * @param response * @throws IOException */
-    public void queryDetailByRid(HttpServletRequest request,HttpServletResponse response){
+    private void queryDetailByRid(HttpServletRequest request,HttpServletResponse response){
         //1、接收请求数据
          String rid = request.getParameter("rid");
         // 2、处理数据：调用service层 根据rid查询线路详情
@@ -111,7 +111,7 @@ public class RouteController {
      * @throws IOException
      */
     /**** @param request * @param response * @throws IOException */
-    public void pageQuery(HttpServletRequest request,HttpServletResponse response){
+    private void pageQuery(HttpServletRequest request,HttpServletResponse response){
         //1、接收请求数据
         String pageNum = request.getParameter("pageNum");
         String pageSize = request.getParameter("pageSize");
