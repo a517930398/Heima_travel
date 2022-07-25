@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itheima.dao.FavoriteMapper">
+    <resultMap id="myFavoriteResult" type="com.itheima.domain.Favorite">
+        <id column="rid"/>
+        <result property="date" column="date"/>
+        <!--favorite:route一对一-->
+        <association property="route"  javaType="com.itheima.domain.Route" autoMapping="true">
+            <id property="rid" column="rid"/>
+        </association>
+    </resultMap>
+    <!--分页查询我的收藏数据-->
+    <select id="pageQuery" resultMap="myFavoriteResult">
+        SELECT
+            *
+        FROM
+            tab_favorite tbf
+                INNER JOIN tab_route tbr ON tbf.rid = tbr.rid
+        WHERE
+            uid = #{uid}
+        ORDER BY
+            tbf.date DESC
+            LIMIT
+            #{startIndex},#{pageSize}
+    </select>
+</mapper>

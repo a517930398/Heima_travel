@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itheima.dao.RouteMapper">
+
+    <!--&lt;!&ndash;详情数据结果集&ndash;&gt;-->
+    <!--<resultMap id="routeDetailMap" type="Route" autoMapping="true">-->
+        <!--&lt;!&ndash;主键&ndash;&gt;-->
+        <!--<id column="rid" property="rid"/>-->
+        <!--&lt;!&ndash;route-category:1对1&ndash;&gt;-->
+        <!--<association property="category" javaType="Category" autoMapping="true">-->
+            <!--<id column="cid" property="cid"/>-->
+        <!--</association>-->
+
+        <!--&lt;!&ndash;route-seller:1对1&ndash;&gt;-->
+        <!--<association property="seller" javaType="Seller" autoMapping="true">-->
+            <!--<id column="sid" property="sid"/>-->
+        <!--</association>-->
+
+        <!--&lt;!&ndash;route-routeImg：1对多&ndash;&gt;-->
+        <!--<collection property="routeImgList" javaType="List" ofType="RouteImg" autoMapping="true">-->
+            <!--<id column="rgid" property="rgid"/>-->
+        <!--</collection>-->
+
+    <!--</resultMap>-->
+    <!--&lt;!&ndash;根据rid多表关联查询&ndash;&gt;-->
+    <!--<select id="queryDetailByRid" resultMap="routeDetailMap">-->
+        <!--SELECT-->
+            <!--*-->
+        <!--FROM-->
+            <!--tab_route tbr-->
+                <!--INNER JOIN tab_category tbc ON tbr.cid = tbc.cid-->
+                <!--INNER JOIN tab_seller tbs ON tbr.sid = tbs.sid-->
+                <!--INNER JOIN tab_route_img tbri ON tbr.rid = tbri.rid-->
+        <!--WHERE-->
+            <!--tbr.rid =#{rid}-->
+    <!--</select>-->
+    <!--多条件分页查询收藏排行榜数据-->
+    <select id="pageQueryOrderByCountDesc" resultType="com.itheima.domain.Route">
+        SELECT * FROM  tab_route
+        <where>
+            <if test="conditionMap.rname!=null and conditionMap.rname!=''">
+                and rname like  concat('%',#{conditionMap.rname},'%')
+            </if>
+            <if test="conditionMap.minPrice!=null and conditionMap.minPrice!=''">
+                and price >= #{conditionMap.minPrice}
+            </if>
+            <if test="conditionMap.maxPrice!=null and conditionMap.maxPrice!=''">
+                and price &lt;= #{conditionMap.maxPrice}
+            </if>
+        </where>
+        ORDER BY count DESC LIMIT #{startIndex},#{pageSize}
+    </select>
+    <select id="queryTotalCount" resultType="int">
+        SELECT COUNT(*) FROM tab_route
+        <where>
+            <if test="conditionMap.rname!=null and conditionMap.rname!=''">
+                and rname like concat('%',#{conditionMap.rname},'%')
+            </if>
+            <if test="conditionMap.minPrice!=null and conditionMap.minPrice!=''">
+                and price >= #{conditionMap.minPrice}
+            </if>
+            <if test="conditionMap.maxPrice!=null and conditionMap.maxPrice!=''">
+                and price &lt;= #{conditionMap.maxPrice}
+            </if>
+        </where>
+    </select>
+</mapper>
