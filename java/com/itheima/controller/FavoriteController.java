@@ -55,7 +55,7 @@ public class FavoriteController {
      * @param response
      * @throws IOException
      */
-    public void isFavorite(HttpServletRequest request, HttpServletResponse response){
+    private void isFavorite(HttpServletRequest request, HttpServletResponse response){
 
         try {
             //1、接收请求数据
@@ -74,7 +74,7 @@ public class FavoriteController {
      * @param response
      * @throws IOException
      */
-    public void addFavorite(HttpServletRequest request,HttpServletResponse response){
+    private void addFavorite(HttpServletRequest request,HttpServletResponse response){
         //1、接收请求数据
         String rid = request.getParameter("rid");
         //2、处理数据：调用service层处理登录业务
